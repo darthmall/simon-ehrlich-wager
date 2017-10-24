@@ -8,6 +8,7 @@
   "scripts": {
     "dist": "mkdir -p dist/ && cp -rv static/* dist/ && rollup -c",
     "clean": "rm -rf build/ dist/*",
+    "prepare": "./scripts/pivot.sh ./data/metals.tsv ./data/metals.json",
     "start": "rollup -w -c rollup.dev.config.js"
   },
   "devDependencies": {
