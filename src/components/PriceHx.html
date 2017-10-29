@@ -1,0 +1,72 @@
+<svg ref:svg width="{{width}}" height="{{height}}">
+  <g transform="translate({{margin.left}}, {{margin.top}})">
+    <rect class="chart-background" width="{{contentWidth}}"
+      height="{{contentHeight}}" />
+    <YAxis scale="{{yScale}}" size="{{contentWidth}}" />
+    <XAxis scale="{{xScale}}" size="{{contentHeight}}" />
+  </g>
+</svg>
+
+<script>
+  import * as d3_scale from "d3-scale";
+  
+  import resizeListener from "../utils/resizeListener";
+  import XAxis from "./XAxis.html";
+  import YAxis from "./YAxis.html";
+  
+  export default {
+    components: {
+      XAxis,
+      YAxis
+    },
+    
+    oncreate() {
+      this.unsubscribe = resizeListener(this.onResize.bind(this));
+      this.onResize();
+    },
+    
+    ondestroy() {
+      this.unsubscribe();
+    },
+    
+    data() {
+      return {
+        width: 960,
+        height: 500,
+        margin: {
+          top: 0,
+          right: 0,
+          bottom: 12,
+          left: 12
+        },
+        xScale: d3_scale.scaleLinear(),
+        xValue: d => d[0],
+        yScale: d3_scale.scaleLinear(),
+        yValue: d => d[1]
+      }
+    },
+    
+    methods: {
+      onResize() {
+        const parent = this.refs.svg.parentElement,
+          width = parent.clientWidth,
+          height = parent.clientHeight,
+          margin = this.get("margin"),
+          xScale = this.get("xScale").range([0, width - margin.left - margin.right]),
+          yScale = this.get("yScale").range([height - margin.top - margin.bottom, 0]);
+        
+        this.set({
+          width,
+          height,
+          xScale,
+          yScale
+        });
+      }
+    },
+    
+    computed: {
+      contentWidth: (width, margin) => width - margin.left - margin.right,
+      contentHeight: (height, margin) => height - margin.top - margin.bottom
+    }
+  };
+</script>

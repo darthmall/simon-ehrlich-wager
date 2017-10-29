@@ -1,0 +1,23 @@
+<g class="x axis" transform="translate({{x}}, {{y}})">
+  {{#each scale.ticks() as tick}}
+    <g class="tick" transform="translate({{scale(tick)}}, 0)">
+      <line y2="{{size}}" />
+      <text y="{{size + padding}}" dy="1em" text-anchor="middle">{{tick}}</text>
+    </g>
+  {{/each}}
+</g>
+
+<script>
+  export default {
+    namespace: "svg",
+    
+    data() {
+      return {
+        x: 0,
+        y: 0,
+        size: 2,
+        padding: 2
+      }
+    }
+  };
+</script>

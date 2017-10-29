@@ -1,1 +1,14 @@
-<h1>Hello, {{ name }}!</h1>
+<h1>Simon-Ehrlich Wager</h1>
+<PriceHx prices="{{prices}}"
+  on:setStartDate="set({startDate: event.payload})"
+  on:setDuration="set({duration: event.payload})" />
+
+<script>
+  import PriceHx from "./components/PriceHx.html";
+  
+  export default {
+    components: {
+      PriceHx,
+    }
+  };
+</script>
