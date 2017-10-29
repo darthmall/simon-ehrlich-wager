@@ -8,7 +8,9 @@
     
     data() {
       return {
-        orientation: "bottom"
+        orientation: "bottom",
+        size: 2,
+        padding: 2
       };
     },
     
@@ -24,6 +26,8 @@
         }
       },
       
+      // FIXME: These computed properties should all have the same default
+      // behavior, rather than making whichever cases return 0 the default.
       x2: (orientation, size) => {
         switch (orientation) {
           case "left":

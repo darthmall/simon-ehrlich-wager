@@ -1,5 +1,5 @@
 <g class="axis {{class}}" transform="translate({{x}}, {{y}})">
-  {{#each dimension.scale.ticks() as tick}}
+  {{#each ticks as tick}}
     <Tick :orientation :padding :size
       value="{{dimension.scale(tick)}}"
       tick="{{dimension.format(tick)}}"/>
@@ -23,6 +23,13 @@
         size: 2,
         padding: 2,
         orientation: "left"
+      }
+    },
+    
+    computed: {
+      ticks: dimension => {
+        if (dimension && dimension.scale) return dimension.scale.ticks();
+        return [];
       }
     }
   };
