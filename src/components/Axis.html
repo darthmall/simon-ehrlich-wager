@@ -1,0 +1,29 @@
+<g class="axis {{class}}" transform="translate({{x}}, {{y}})">
+  {{#each dimension.scale.ticks() as tick}}
+    <Tick :orientation :padding :size
+      value="{{dimension.scale(tick)}}"
+      tick="{{dimension.format(tick)}}"/>
+  {{/each}}
+</g>
+
+<script>
+  import Tick from "./Tick.html";
+  
+  export default {
+    namespace: "svg",
+    
+    components: {
+      Tick
+    },
+    
+    data() {
+      return {
+        x: 0,
+        y: 0,
+        size: 2,
+        padding: 2,
+        orientation: "left"
+      }
+    }
+  };
+</script>

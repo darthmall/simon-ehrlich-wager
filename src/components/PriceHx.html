@@ -1,72 +1,59 @@
-<svg ref:svg width="{{width}}" height="{{height}}">
-  <g transform="translate({{margin.left}}, {{margin.top}})">
-    <rect class="chart-background" width="{{contentWidth}}"
-      height="{{contentHeight}}" />
-    <YAxis scale="{{yScale}}" size="{{contentWidth}}" />
-    <XAxis scale="{{xScale}}" size="{{contentHeight}}" />
-  </g>
-</svg>
+<Chart bind:contentWidth="width" bind:contentHeight="height" :margin aspect="1.618">
+  <Axis class="x" orientation="left" dimension="{{y}}" size="{{width}}" />
+  <Axis class="y" orientation="bottom" dimension="{{x}}" size="{{height}}" y="{{height}}"/>
+</Chart>
 
 <script>
   import * as d3_scale from "d3-scale";
   
-  import resizeListener from "../utils/resizeListener";
-  import XAxis from "./XAxis.html";
-  import YAxis from "./YAxis.html";
+  import Chart from "./Chart.html";
+  import Axis from "./Axis.html";
   
   export default {
+    namespace: "svg",
+    
     components: {
-      XAxis,
-      YAxis
+      Chart,
+      Axis
     },
     
     oncreate() {
-      this.unsubscribe = resizeListener(this.onResize.bind(this));
-      this.onResize();
-    },
-    
-    ondestroy() {
-      this.unsubscribe();
+      const onResize = this.onResize.bind(this);
+      this.observe("width", onResize);
+      this.observe("height", onResize);
     },
     
     data() {
       return {
-        width: 960,
-        height: 500,
         margin: {
-          top: 0,
-          right: 0,
-          bottom: 12,
-          left: 12
+          top: 8,
+          right: 8,
+          bottom: 16,
+          left: 32
         },
-        xScale: d3_scale.scaleLinear(),
-        xValue: d => d[0],
-        yScale: d3_scale.scaleLinear(),
-        yValue: d => d[1]
+        x: {
+          scale: d3_scale.scaleLinear(),
+          value: d => d[0],
+          format: String
+        },
+        y: {
+          scale: d3_scale.scaleLinear(),
+          value: d => d[1],
+          format: String
+        }
       }
     },
     
     methods: {
       onResize() {
-        const parent = this.refs.svg.parentElement,
-          width = parent.clientWidth,
-          height = parent.clientHeight,
-          margin = this.get("margin"),
-          xScale = this.get("xScale").range([0, width - margin.left - margin.right]),
-          yScale = this.get("yScale").range([height - margin.top - margin.bottom, 0]);
+        const x = this.get("x"),
+          y = this.get("y");
+          
+        x.scale.range([0, this.get("width")]);
+        y.scale.range([this.get("height"), 0]);
         
-        this.set({
-          width,
-          height,
-          xScale,
-          yScale
-        });
+        this.set({x, y});
       }
-    },
-    
-    computed: {
-      contentWidth: (width, margin) => width - margin.left - margin.right,
-      contentHeight: (height, margin) => height - margin.top - margin.bottom
     }
   };
 </script>

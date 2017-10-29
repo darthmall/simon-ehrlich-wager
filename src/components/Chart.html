@@ -1,0 +1,55 @@
+<svg ref:svg width="{{width}}" height="{{height}}">
+  <g :transform>
+    <rect class="chart-background" width="{{contentWidth}}"
+      height="{{contentHeight}}" />
+    <slot></slot>
+  </g>
+</svg>
+
+<script>
+  import resizeListener from "../utils/resizeListener";
+  
+  export default {
+    namespace: "svg",
+    
+    oncreate() {
+      this.unsubscribe = resizeListener(this.onResize.bind(this));
+      this.onResize();
+    },
+    
+    ondestroy() {
+      this.unsubscribe();
+    },
+    
+    data() {
+      return {
+        width: 960,
+        height: 500,
+        margin: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        }
+      };
+    },
+    
+    methods: {
+      onResize() {
+        const parent = this.refs.svg.parentElement,
+          aspect = this.get("aspect"),
+          width = parent.clientWidth,
+          height = aspect ? width / aspect : parent.clientHeight;
+          
+        this.set({width, height});
+      }
+    },
+    
+    computed: {
+      contentWidth: (width, margin) => width - margin.left - margin.right,
+      contentHeight: (height, margin) => height - margin.top - margin.bottom,
+      dimensions: (contentWidth, contentHeight) => [contentWidth, contentHeight],
+      transform: (margin) => `translate(${margin.left}, ${margin.top})`
+    }
+  };
+</script>
