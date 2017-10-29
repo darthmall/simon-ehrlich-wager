@@ -1,0 +1,15 @@
+html {
+  font-family: sans-serif;
+}
+
+.chart-background {
+  fill: #efefef;
+}
+
+.tick {
+  font-size: 10px;
+}
+
+.tick line {
+  stroke: white;
+}
