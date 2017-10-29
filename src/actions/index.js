@@ -1,2 +1,0 @@
-export const SET_START_DATE = "SET_START_DATE";
-export const SET_DURATION = "SET_DURATION";
