@@ -1,20 +1,50 @@
-<Chart bind:contentWidth="width" bind:contentHeight="height" :margin aspect="1.618">
+<Chart bind:contentWidth="width" bind:contentHeight="height" :margin
+    aspect="1.618">
+    
   <Axis class="x" orientation="left" dimension="{{y}}" size="{{width}}" />
-  <Axis class="y" orientation="bottom" dimension="{{x}}" size="{{height}}" y="{{height}}"/>
+  <Axis class="y" orientation="bottom" dimension="{{x}}" size="{{height}}"
+      y="{{height}}"/>
+    
+  <g class="series">
+    {{#each series as s}}
+      <path d="{{pathString(x, y, s.values)}}"
+          stroke="{{stroke(s.key)}}" stroke-width="2" stroke-dasharray="3 2"
+          stroke-opacity="0.6"
+          fill="none" />
+    {{/each}}
+  </g>
+  
 </Chart>
 
 <script>
-  import * as d3_scale from "d3-scale";
+  import {extent} from "d3-array";
+  import {nest} from "d3-collection";
+  import {format} from "d3-format";
+  import {
+    schemeCategory10,
+    scaleOrdinal,
+    scaleLinear
+  } from "d3-scale";
+  import {line} from "d3-shape";
   
-  import Chart from "./Chart.html";
   import Axis from "./Axis.html";
+  import Chart from "./Chart.html";
+  
+  const stroke = scaleOrdinal(schemeCategory10);
+  
+  const pathString = (x, y, values) => {
+    return (line()
+      .x(d => x.scale(x.value(d)))
+      .y(d => y.scale(y.value(d)))
+      (values));
+  }
   
   export default {
     namespace: "svg",
     
     components: {
-      Chart,
-      Axis
+      Axis,
+      Chart
     },
     
     oncreate() {
@@ -32,16 +62,6 @@
           right: 8,
           bottom: 16,
           left: 32
-        },
-        x: {
-          scale: d3_scale.scaleLinear(),
-          value: d => d[0],
-          format: String
-        },
-        y: {
-          scale: d3_scale.scaleLinear(),
-          value: d => d[1],
-          format: String
         }
       }
     },
@@ -56,6 +76,36 @@
         
         this.set({x, y});
       }
+    },
+    
+    computed: {
+      x: prices => {
+        return {
+          scale: scaleLinear().domain(extent(prices, d => d.year)),
+          value: d => d.year,
+          format: String
+        };
+      },
+      
+      y: prices => {
+        return {
+          scale: scaleLinear().domain(extent(prices, d => d.price)).nice(),
+          value: d => d.price,
+          format: format("$.0s")
+        }
+      },
+      
+      series: prices => {
+        return nest()
+          .key(d => d.type)
+          .sortValues((a, b) => a.year - b.year)
+          .entries(prices);
+      }
+    },
+    
+    helpers: {
+      pathString,
+      stroke
     }
   };
 </script>
