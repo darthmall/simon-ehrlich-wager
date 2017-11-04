@@ -19,7 +19,12 @@ figure {
   fill: #efefef;
 }
 
-.tick {
+.frameless .chart-background {
+  fill: none;
+}
+
+.tick,
+.annotations {
   font-size: 10px;
 }
 

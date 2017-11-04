@@ -1,9 +1,28 @@
-<Chart bind:contentWidth="width" bind:contentHeight="height" :margin
+<Chart class="frameless" bind:contentWidth="width" bind:contentHeight="height" :margin
   aspect="1.618">
   
   <g class="series">
     <path class="area" :d
       stroke="none" fill="{{seriesColor(name)}}" />
+  </g>
+  
+  <g class="annotations">
+    <g transform="{{translate(startPrice.x, startPrice.y)}}">
+      <circle r="{{startPrice.r}}"
+        stroke-width="2" fill="white" stroke="{{seriesColor(name)}}" />
+      <text alignment-baseline="middle" x="{{-startPrice.r}}" dx="-2"
+        text-anchor="end">
+        
+        {{startPrice.label}}
+      </text>
+    </g>
+    <g transform="{{translate(endPrice.x, endPrice.y)}}">
+      <circle r="{{endPrice.r}}"
+        stroke-width="2" fill="white" stroke="{{seriesColor(name)}}" />
+      <text alignment-baseline="middle" x="{{endPrice.r}}" dx="2">
+        {{endPrice.label}}
+      </text>
+    </g>
   </g>
 </Chart>
 
@@ -15,6 +34,8 @@
   import Axis from "./Axis.html";
   import Chart from "./Chart.html";
   
+  const translate = (x, y) => `translate(${x}, ${y})`;
+  
   export default {
     namespace: "svg",
     
@@ -24,7 +45,8 @@
     },
     
     helpers: {
-      seriesColor
+      seriesColor,
+      translate
     },
     
     oncreate() {
@@ -40,9 +62,9 @@
         height: 0,
         margin: {
           top: 8,
-          right: 8,
+          right: 32,
           bottom: 8,
-          left: 8
+          left: 32
         }
       }
     },
@@ -51,7 +73,24 @@
       d: (prices, x, y) => area()
         .x(d => x.scale(x.value(d)))
         .y0(y.scale(y.value(prices[0])))
-        .y1(d => y.scale(y.value(d)))(prices)
+        .y1(d => y.scale(y.value(d)))(prices),
+        
+      startPrice: (prices, x, y) => ({
+        x: x.scale(x.value(prices[0])),
+        y: y.scale(y.value(prices[0])),
+        label: y.format(y.value(prices[0])),
+        r: 3
+      }),
+      
+      endPrice: (prices, x, y) => {
+        const last = prices[prices.length - 1];
+        return {
+          x: x.scale(x.value(last)),
+          y: y.scale(y.value(last)),
+          label: y.format(y.value(last)),
+          r: 3
+        };
+      }
     },
     
     methods: {
