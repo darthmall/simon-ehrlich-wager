@@ -7,6 +7,8 @@
   on:setEndDate="set({endDate: event.payload})" />
 
 <script>
+  import {seriesColor} from "./utils/color.js";
+  
   import PriceHx from "./components/PriceHx.html";
   import WagerPeriod from "./components/WagerPeriod.html";
   
@@ -15,5 +17,12 @@
       PriceHx,
       WagerPeriod
     },
+    
+    oncreate() {
+      this.observe("prices", (prices) => {
+        const series = new Set(prices.map(d => d.type));
+        seriesColor.domain(series);
+      });
+    }
   };
 </script>

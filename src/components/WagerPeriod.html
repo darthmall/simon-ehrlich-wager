@@ -6,7 +6,8 @@
   {{#each series as metal}}
     <figure>
       <figcaption>{{metal.key}}</figcaption>
-      <WagerMetal prices="{{metal.values}}" :x y="{{y(metal.values)}}" />
+      <WagerMetal name="{{metal.key}}" prices="{{metal.values}}"
+        :x y="{{y(metal.values)}}" />
     </figure>
   {{/each}}
   

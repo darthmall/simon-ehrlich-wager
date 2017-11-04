@@ -1,20 +1,19 @@
 <Chart bind:contentWidth="width" bind:contentHeight="height" :margin
   aspect="1.618">
   
-  <Axis class="x" orientation="left" dimension="{{y}}" size="{{width}}" />
-  
   <g class="series">
-    <path d="{{pathString(x, y, prices)}}"
-      stroke="black" stroke-width="2" stroke-dasharray="3 2"
-      fill="none" />
+    <path class="area" :d
+      stroke="none" fill="{{seriesColor(name)}}" />
   </g>
 </Chart>
 
 <script>
+  import {area} from "d3-shape";
+  
+  import {seriesColor} from "../utils/color.js";
+  
   import Axis from "./Axis.html";
   import Chart from "./Chart.html";
-  
-  import pathString from "../utils/pathString";
   
   export default {
     namespace: "svg",
@@ -22,6 +21,10 @@
     components: {
       Axis,
       Chart
+    },
+    
+    helpers: {
+      seriesColor
     },
     
     oncreate() {
@@ -44,8 +47,11 @@
       }
     },
     
-    helpers: {
-      pathString
+    computed: {
+      d: (prices, x, y) => area()
+        .x(d => x.scale(x.value(d)))
+        .y0(y.scale(y.value(prices[0])))
+        .y1(d => y.scale(y.value(d)))(prices)
     },
     
     methods: {

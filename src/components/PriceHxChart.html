@@ -8,7 +8,7 @@
   <g class="series">
     {{#each series as s}}
       <path d="{{pathString(x, y, s.values)}}"
-          stroke="{{stroke(s.key)}}" stroke-width="2" stroke-dasharray="3 2"
+          stroke="{{seriesColor(s.key)}}" stroke-width="2" stroke-dasharray="3 2"
           stroke-opacity="0.6"
           fill="none" />
     {{/each}}
@@ -20,18 +20,13 @@
   import {extent} from "d3-array";
   import {nest} from "d3-collection";
   import {format} from "d3-format";
-  import {
-    schemeCategory10,
-    scaleOrdinal,
-    scaleLinear
-  } from "d3-scale";
+  import {scaleLinear} from "d3-scale";
   
   import pathString from "../utils/pathString";
+  import {seriesColor} from "../utils/color";
   
   import Axis from "./Axis.html";
   import Chart from "./Chart.html";
-  
-  const stroke = scaleOrdinal(schemeCategory10);
   
   export default {
     namespace: "svg",
@@ -101,7 +96,7 @@
     
     helpers: {
       pathString,
-      stroke
+      seriesColor
     }
   };
 </script>
