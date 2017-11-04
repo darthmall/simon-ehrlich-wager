@@ -5,7 +5,9 @@
   
   {{#each series as metal}}
     <figure>
-      <figcaption>{{metal.key}}</figcaption>
+      <figcaption>
+        {{formatName(metal.key)}}&nbsp;({{pctChange(metal.values)}})
+      </figcaption>
       <WagerMetal name="{{metal.key}}" prices="{{metal.values}}"
         :x y="{{y(metal.values)}}" />
     </figure>
@@ -20,6 +22,17 @@
   import {scaleLinear} from "d3-scale";
   
   import WagerMetal from "./WagerMetal.html";
+  
+  const pct = format(".1%");
+  
+  const pctChange = (values) => {
+    const first = values[0],
+      last = values[values.length - 1];
+      
+    return pct((last.price - first.price) / first.price);
+  };
+  
+  const formatName = (name) => (/[A-Za-z0-9 ]+/).exec(name)[0].trim();
   
   export default {
     components: {
@@ -50,7 +63,9 @@
           value: d => d.price,
           format: format("$.0s")
         };
-      }
+      },
+      formatName,
+      pctChange
     }
   }
 </script>
