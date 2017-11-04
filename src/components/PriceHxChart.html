@@ -1,0 +1,107 @@
+<Chart bind:contentWidth="width" bind:contentHeight="height" :margin
+    aspect="1.618">
+    
+  <Axis class="x" orientation="left" dimension="{{y}}" size="{{width}}" />
+  <Axis class="y" orientation="bottom" dimension="{{x}}" size="{{height}}"
+      y="{{height}}"/>
+    
+  <g class="series">
+    {{#each series as s}}
+      <path d="{{pathString(x, y, s.values)}}"
+          stroke="{{stroke(s.key)}}" stroke-width="2" stroke-dasharray="3 2"
+          stroke-opacity="0.6"
+          fill="none" />
+    {{/each}}
+  </g>
+  
+</Chart>
+
+<script>
+  import {extent} from "d3-array";
+  import {nest} from "d3-collection";
+  import {format} from "d3-format";
+  import {
+    schemeCategory10,
+    scaleOrdinal,
+    scaleLinear
+  } from "d3-scale";
+  
+  import pathString from "../utils/pathString";
+  
+  import Axis from "./Axis.html";
+  import Chart from "./Chart.html";
+  
+  const stroke = scaleOrdinal(schemeCategory10);
+  
+  export default {
+    namespace: "svg",
+    
+    components: {
+      Axis,
+      Chart
+    },
+    
+    oncreate() {
+      const onResize = this.onResize.bind(this);
+      this.observe("width", onResize);
+      this.observe("height", onResize);
+    },
+    
+    data() {
+      return {
+        width: 0,
+        height: 0,
+        margin: {
+          top: 8,
+          right: 8,
+          bottom: 16,
+          left: 32
+        }
+      }
+    },
+    
+    methods: {
+      onResize() {
+        const x = this.get("x"),
+          y = this.get("y");
+          
+        x.scale.range([0, this.get("width")]);
+        y.scale.range([this.get("height"), 0]);
+        
+        this.set({x, y});
+      }
+    },
+    
+    computed: {
+      domain: prices => extent(prices, d => d.year),
+      
+      x: (prices, domain) => {
+        return {
+          scale: scaleLinear().domain(domain),
+          value: d => d.year,
+          format: String
+        };
+      },
+      
+      y: prices => {
+        return {
+          scale: scaleLinear().domain(extent(prices, d => d.price)).nice(),
+          value: d => d.price,
+          format: format("$.0s")
+        }
+      },
+      
+      series: prices => {
+        return nest()
+          .key(d => d.type)
+          .sortValues((a, b) => a.year - b.year)
+          .entries(prices);
+      }
+    },
+    
+    helpers: {
+      pathString,
+      stroke
+    }
+  };
+</script>
