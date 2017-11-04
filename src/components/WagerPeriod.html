@@ -1,9 +1,16 @@
-{{#each series as metal}}
-  <figure>
-    <figcaption>{{metal.key}}</figcaption>
-    <WagerMetal prices="{{metal.values}}" :x y="{{y(metal.values)}}"/>
-  </figure>
-{{/each}}
+<section id="wager-period-overview" class="grid">
+  <h2 class="full">
+    Prices for Individual Metals from {{startDate}} to {{endDate}}
+  </h2>
+  
+  {{#each series as metal}}
+    <figure>
+      <figcaption>{{metal.key}}</figcaption>
+      <WagerMetal prices="{{metal.values}}" :x y="{{y(metal.values)}}" />
+    </figure>
+  {{/each}}
+  
+</section>
 
 <script>
   import {extent} from "d3-array";
