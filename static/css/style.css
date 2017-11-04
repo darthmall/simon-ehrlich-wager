@@ -2,6 +2,19 @@ html {
   font-family: sans-serif;
 }
 
+body {
+  margin: 0.5em;
+}
+
+section {
+  width: 100%;
+}
+
+figure {
+  margin: 0;
+  overflow: hidden;
+}
+
 .chart-background {
   fill: #efefef;
 }
@@ -12,4 +25,26 @@ html {
 
 .tick line {
   stroke: white;
+}
+
+@media screen and (min-width: 540px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+  }
+  
+  .grid .full {
+    grid-column-end: span 2;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .grid .full {
+    grid-column-end: span 5;
+  }
 }
