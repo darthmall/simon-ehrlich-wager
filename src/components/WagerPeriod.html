@@ -1,0 +1,48 @@
+{{#each series as metal}}
+  <figure>
+    <figcaption>{{metal.key}}</figcaption>
+    <WagerMetal prices="{{metal.values}}" :x y="{{y(metal.values)}}"/>
+  </figure>
+{{/each}}
+
+<script>
+  import {extent} from "d3-array";
+  import {nest} from "d3-collection";
+  import {format} from "d3-format";
+  import {scaleLinear} from "d3-scale";
+  
+  import WagerMetal from "./WagerMetal.html";
+  
+  export default {
+    components: {
+      WagerMetal
+    },
+    
+    computed: {
+      pricesForPeriod: (prices, startDate, endDate) => {
+        return prices.filter(d => d.year >= startDate && d.year <= endDate);
+      },
+      
+      series: (pricesForPeriod) => (nest()
+        .key(d => d.type)
+        .sortValues((a, b) => a.year - b.year)
+        .entries(pricesForPeriod)),
+        
+      x: (startDate, endDate) => ({
+        scale: scaleLinear().domain([startDate, endDate]),
+        value: d => d.year,
+        format: String
+      })
+    },
+    
+    helpers: {
+      y: function (values) {
+        return {
+          scale: scaleLinear().domain(extent(values, d => d.price)),
+          value: d => d.price,
+          format: format("$.0s")
+        };
+      }
+    }
+  }
+</script>

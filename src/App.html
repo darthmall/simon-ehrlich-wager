@@ -1,14 +1,21 @@
 <h1>Simon-Ehrlich Wager</h1>
-<PriceHx prices="{{prices}}"
+
+<WagerPeriod :prices :startDate :endDate />
+  
+<PriceHx :prices
   on:setStartDate="set({startDate: event.payload})"
-  on:setDuration="set({duration: event.payload})" />
+  on:setEndDate="set({endDate: event.payload})" />
 
 <script>
+  import {nest} from "d3-collection";
+  
   import PriceHx from "./components/PriceHx.html";
+  import WagerPeriod from "./components/WagerPeriod.html";
   
   export default {
     components: {
       PriceHx,
-    }
+      WagerPeriod
+    },
   };
 </script>

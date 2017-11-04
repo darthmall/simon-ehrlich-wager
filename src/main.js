@@ -5,7 +5,7 @@ new App({
   target: document.body.querySelector("main"),
   data: {
     startDate: 1980,
-    duration: 10,
+    endDate: 1990,
     prices
   }
 });

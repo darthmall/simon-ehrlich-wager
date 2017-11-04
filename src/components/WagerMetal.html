@@ -1,0 +1,63 @@
+<Chart bind:contentWidth="width" bind:contentHeight="height" :margin
+  aspect="1.618">
+  
+  <Axis class="x" orientation="left" dimension="{{y}}" size="{{width}}" />
+  
+  <g class="series">
+    <path d="{{pathString(x, y, prices)}}"
+      stroke="black" stroke-width="2" stroke-dasharray="3 2"
+      fill="none" />
+  </g>
+</Chart>
+
+<script>
+  import Axis from "./Axis.html";
+  import Chart from "./Chart.html";
+  
+  import pathString from "../utils/pathString";
+  
+  export default {
+    namespace: "svg",
+    
+    components: {
+      Axis,
+      Chart
+    },
+    
+    oncreate() {
+      const onResize = this.onResize.bind(this);
+      this.observe("width", onResize);
+      this.observe("height", onResize);
+    },
+    
+    data() {
+      return {
+        prices: [],
+        width: 0,
+        height: 0,
+        margin: {
+          top: 8,
+          right: 8,
+          bottom: 8,
+          left: 8
+        }
+      }
+    },
+    
+    helpers: {
+      pathString
+    },
+    
+    methods: {
+      onResize() {
+        const x = this.get("x"),
+          y = this.get("y");
+          
+        x.scale.range([0, this.get("width")]);
+        y.scale.range([this.get("height"), 0]);
+        
+        this.set({x, y});
+      }
+    }
+  };
+</script>
