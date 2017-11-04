@@ -25,19 +25,13 @@
     scaleOrdinal,
     scaleLinear
   } from "d3-scale";
-  import {line} from "d3-shape";
+  
+  import pathString from "../utils/pathString";
   
   import Axis from "./Axis.html";
   import Chart from "./Chart.html";
   
   const stroke = scaleOrdinal(schemeCategory10);
-  
-  const pathString = (x, y, values) => {
-    return (line()
-      .x(d => x.scale(x.value(d)))
-      .y(d => y.scale(y.value(d)))
-      (values));
-  }
   
   export default {
     namespace: "svg",
