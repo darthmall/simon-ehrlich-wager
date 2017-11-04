@@ -23,8 +23,8 @@
     
     data() {
       return {
-        width: 960,
-        height: 500,
+        width: 0,
+        height: 0,
         margin: {
           top: 0,
           right: 0,
@@ -46,8 +46,8 @@
     },
     
     computed: {
-      contentWidth: (width, margin) => width - margin.left - margin.right,
-      contentHeight: (height, margin) => height - margin.top - margin.bottom,
+      contentWidth: (width, margin) => Math.max(0, width - margin.left - margin.right),
+      contentHeight: (height, margin) => Math.max(0, height - margin.top - margin.bottom),
       dimensions: (contentWidth, contentHeight) => [contentWidth, contentHeight],
       transform: (margin) => `translate(${margin.left}, ${margin.top})`
     }
