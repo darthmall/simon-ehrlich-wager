@@ -23,6 +23,11 @@ figure {
   fill: none;
 }
 
+.axis,
+.series {
+  pointer-events: none;
+}
+
 .tick,
 .annotations {
   font-size: 10px;
@@ -30,6 +35,18 @@ figure {
 
 .tick line {
   stroke: white;
+}
+
+.brush-area {
+  fill: none;
+}
+
+.brush-selection {
+  fill: none;
+}
+
+.brush-handle {
+  cursor: ew-resize;
 }
 
 @media screen and (min-width: 540px) {

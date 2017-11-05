@@ -1,0 +1,67 @@
+<g class="brush">
+  <rect ref:area class="brush-area" width="{{extent[1]}}" :height />
+  <rect class="brush-selection" on:brush="onselectionmove(event)"
+    x="{{start}}" width="{{end - start}}" :height />
+  <rect class="brush-handle" on:brush="onstartmove(event)"
+    x="{{start - handleWidth}}" width="{{handleWidth}}" :height />
+  <rect class="brush-handle" on:brush="onendmove(event)"
+    x="{{end}}" width="{{handleWidth}}" :height />
+</g>
+<script>
+  export default {
+    namespace: "svg",
+    
+    data() {
+      return {
+        handleWidth: 1
+      }
+    },
+    
+    methods: {
+      onstartmove(event) {
+        this.fire("brush", [this.get("start") + event, this.get("end")]);
+      },
+      
+      onendmove(event) {
+        this.fire("brush", [this.get("start"), this.get("end") + event]);
+      },
+      
+      onselectionmove(event) {
+        this.fire("brush", [
+          this.get("start") + event,
+          this.get("end") + event
+        ]);
+      }
+    },
+    
+    events: {
+      brush(node, cb) {
+        function onmousedown(event) {
+          function onmouseup() {
+            window.removeEventListener("mouseup", onmouseup, false);
+            window.removeEventListener("mousemove", onmousemove, false);
+          }
+          
+          function onmousemove(event) {
+            const dx = event.screenX - x0;
+            x0 = event.screenX
+            cb(dx);
+          }
+          
+          let x0 = event.screenX;
+          
+          window.addEventListener("mouseup", onmouseup, false);
+          window.addEventListener("mousemove", onmousemove, false);
+        }
+        
+        node.addEventListener("mousedown", onmousedown, false);
+        
+        return {
+          teardown() {
+            node.removeEventListener("mousedown", onmousedown, false);
+          }
+        };
+      }
+    }
+  };
+</script>

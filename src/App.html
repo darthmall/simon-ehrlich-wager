@@ -1,10 +1,8 @@
 <h1>Simon-Ehrlich Wager</h1>
 
 <WagerPeriod :prices :startDate :endDate />
-  
-<PriceHx :prices
-  on:setStartDate="set({startDate: event.payload})"
-  on:setEndDate="set({endDate: event.payload})" />
+<PriceHx :prices :startDate :endDate
+  on:setPeriod="set(event)" />
 
 <script>
   import {seriesColor} from "./utils/color.js";

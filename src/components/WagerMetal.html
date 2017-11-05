@@ -53,6 +53,8 @@
       const onResize = this.onResize.bind(this);
       this.observe("width", onResize);
       this.observe("height", onResize);
+      this.observe("x", onResize);
+      this.observe("y", onResize);
     },
     
     data() {

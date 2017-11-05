@@ -1,6 +1,6 @@
 <section id="wager-period-overview" class="grid">
   <h2 class="full">
-    Prices for Individual Metals from {{startDate}} to {{endDate}}
+    Prices for Individual Metals from {{round(startDate)}} to {{round(endDate)}}
   </h2>
   
   {{#each series as metal}}
@@ -65,7 +65,8 @@
         };
       },
       formatName,
-      pctChange
+      pctChange,
+      round: Math.round
     }
   }
 </script>

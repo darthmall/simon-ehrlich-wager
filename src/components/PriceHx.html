@@ -1,6 +1,7 @@
 <section>
   <h2>Historical Prices {{domain[0]}} to {{domain[1]}}</h2>
-  <PriceHxChart :prices />
+  <PriceHxChart :prices :startDate :endDate
+    on:setPeriod="fire('setPeriod', event)" />
 </section>
 
 <script>
@@ -14,7 +15,7 @@
     },
     
     computed: {
-      domain: (prices) => extent(prices, d => d.year)
+      domain: (prices) => extent(prices, d => d.year).map(Math.round)
     }
   }
 </script>

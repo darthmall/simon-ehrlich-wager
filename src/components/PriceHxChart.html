@@ -1,18 +1,40 @@
-<Chart bind:contentWidth="width" bind:contentHeight="height" :margin
-    aspect="1.618">
+<Chart class="chart line-chart"
+  bind:contentWidth="width" bind:contentHeight="height" :margin
+  aspect="1.618">
+    
+  <defs>
+    <clipPath id="selection">
+      <rect x="{{brushStart}}"
+        width="{{brushEnd - brushStart}}"
+        :height />
+    </clipPath>
+  </defs>
     
   <Axis class="x" orientation="left" dimension="{{y}}" size="{{width}}" />
   <Axis class="y" orientation="bottom" dimension="{{x}}" size="{{height}}"
-      y="{{height}}"/>
+    y="{{height}}"/>
     
   <g class="series">
-    {{#each series as s}}
-      <path d="{{pathString(x, y, s.values)}}"
-          stroke="{{seriesColor(s.key)}}" stroke-width="2" stroke-dasharray="3 2"
-          stroke-opacity="0.6"
-          fill="none" />
-    {{/each}}
+    <g class="unselected">
+      {{#each series as s}}
+        <path d="{{pathString(x, y, s.values)}}"
+            stroke="{{seriesColor(s.key)}}" stroke-width="2" stroke-dasharray="3 2"
+            stroke-opacity="0.6"
+            fill="none" />
+      {{/each}}
+    </g>
+    <g class="selected" clip-path="url(#selection)">
+      {{#each series as s}}
+        <path d="{{pathString(x, y, s.values)}}"
+            stroke="{{seriesColor(s.key)}}" stroke-width="2"
+            fill="none" />
+      {{/each}}
+    </g>
   </g>
+  
+  <Brush extent="{{[0, width]}}" :height
+    start="{{brushStart}}" end="{{x.scale(endDate)}}"
+    on:brush="onbrush(event)" />
   
 </Chart>
 
@@ -26,6 +48,7 @@
   import {seriesColor} from "../utils/color";
   
   import Axis from "./Axis.html";
+  import Brush from "./Brush.html";
   import Chart from "./Chart.html";
   
   export default {
@@ -33,6 +56,7 @@
     
     components: {
       Axis,
+      Brush,
       Chart
     },
     
@@ -46,6 +70,8 @@
       return {
         width: 0,
         height: 0,
+        startDate: 0,
+        endDate: 0,
         margin: {
           top: 8,
           right: 8,
@@ -64,6 +90,15 @@
         y.scale.range([this.get("height"), 0]);
         
         this.set({x, y});
+      },
+      
+      onbrush(extent) {
+        const x = this.get("x").scale;
+        
+        this.fire("setPeriod", {
+          startDate: x.invert(extent[0]),
+          endDate: x.invert(extent[1])
+        });
       }
     },
     
@@ -91,7 +126,10 @@
           .key(d => d.type)
           .sortValues((a, b) => a.year - b.year)
           .entries(prices);
-      }
+      },
+      
+      brushStart: (startDate, x) => x.scale(startDate),
+      brushEnd: (endDate, x) => x.scale(endDate)
     },
     
     helpers: {
