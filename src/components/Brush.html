@@ -1,10 +1,10 @@
 <g class="brush">
   <rect ref:area class="brush-area" width="{{extent[1]}}" :height />
-  <rect class="brush-selection" on:brush="onselectionmove(event)"
+  <rect class="brush-selection" on:drag="onselectionmove(event)"
     x="{{start}}" width="{{end - start}}" :height />
-  <rect class="brush-handle" on:brush="onstartmove(event)"
+  <rect class="brush-handle" on:drag="onstartmove(event)"
     x="{{start - handleWidth}}" width="{{handleWidth}}" :height />
-  <rect class="brush-handle" on:brush="onendmove(event)"
+  <rect class="brush-handle" on:drag="onendmove(event)"
     x="{{end}}" width="{{handleWidth}}" :height />
 </g>
 <script>
@@ -35,7 +35,7 @@
     },
     
     events: {
-      brush(node, cb) {
+      drag(node, cb) {
         function onmousedown(event) {
           function onmouseup() {
             window.removeEventListener("mouseup", onmouseup, false);

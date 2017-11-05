@@ -42,7 +42,8 @@ figure {
 }
 
 .brush-selection {
-  fill: none;
+  cursor: move;
+  fill-opacity: 0;
 }
 
 .brush-handle {
