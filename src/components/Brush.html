@@ -38,6 +38,7 @@
       drag(node, cb) {
         function onmousedown(event) {
           function onmouseup() {
+            fire("brushend");
             window.removeEventListener("mouseup", onmouseup, false);
             window.removeEventListener("mousemove", onmousemove, false);
           }
@@ -53,6 +54,8 @@
           window.addEventListener("mouseup", onmouseup, false);
           window.addEventListener("mousemove", onmousemove, false);
         }
+        
+        const fire = this.fire.bind(this);
         
         node.addEventListener("mousedown", onmousedown, false);
         

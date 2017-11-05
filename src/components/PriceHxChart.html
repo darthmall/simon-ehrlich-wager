@@ -34,7 +34,8 @@
   
   <Brush extent="{{[0, width]}}" :height
     start="{{brushStart}}" end="{{x.scale(endDate)}}"
-    on:brush="onbrush(event)" />
+    on:brush="onbrush(event)"
+    on:brushend="onbrushend()" />
   
 </Chart>
 
@@ -98,6 +99,13 @@
         this.fire("setPeriod", {
           startDate: x.invert(extent[0]),
           endDate: x.invert(extent[1])
+        });
+      },
+      
+      onbrushend() {
+        this.fire("setPeriod", {
+          startDate: Math.round(this.get("startDate")),
+          endDate: Math.round(this.get("endDate"))
         });
       }
     },
