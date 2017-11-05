@@ -19,18 +19,42 @@
     
     methods: {
       onstartmove(event) {
-        this.fire("brush", [this.get("start") + event, this.get("end")]);
+        const start = Math.max(
+          this.get("start") + event,
+          this.get("extent")[0]
+        );
+          
+        this.fire("brush", [start, this.get("end")]);
       },
       
       onendmove(event) {
-        this.fire("brush", [this.get("start"), this.get("end") + event]);
+        const end = Math.min(
+          this.get("end") + event,
+          this.get("extent")[1]
+        );
+        
+        this.fire("brush", [this.get("start"), end]);
       },
       
       onselectionmove(event) {
-        this.fire("brush", [
-          this.get("start") + event,
-          this.get("end") + event
-        ]);
+        const extent = this.get("extent");
+        let start = this.get("start") + event,
+          end = this.get("end") + event,
+          width = end - start;
+          
+        // Prevent moving beyond edges of brush
+        if (width > extent[1] - extent[0]) {
+          start = extent[0];
+          end = extent[1];
+        } else if (start < extent[0]) {
+          start = extent[0];
+          end = start + width;
+        } else if (end > extent[1]) {
+          end = extent[1];
+          start = end - width;
+        }
+
+        this.fire("brush", [start, end]);
       }
     },
     
