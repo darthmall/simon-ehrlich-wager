@@ -15,6 +15,20 @@ figure {
   overflow: hidden;
 }
 
+table {
+  border-collapse: collapse;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin: auto;
+}
+
+th {
+  text-align: left;
+}
+
+table .numeric {
+  text-align: right;
+}
+
 .chart-background {
   fill: #efefef;
 }
