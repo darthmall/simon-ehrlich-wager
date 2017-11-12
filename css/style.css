@@ -1,0 +1,104 @@
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0.5em;
+}
+
+section {
+  width: 100%;
+}
+
+figure {
+  margin: 0;
+  overflow: hidden;
+}
+
+table {
+  border-collapse: collapse;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin: auto;
+}
+
+thead th {
+  padding: 0 0.5em;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  padding: 0.5em;
+}
+
+table .numeric {
+  text-align: right;
+}
+
+table .sparkline {
+  min-width: 5em;
+  padding: 0;
+}
+
+.chart-background {
+  fill: #efefef;
+}
+
+.frameless .chart-background {
+  fill: none;
+}
+
+.axis,
+.series {
+  pointer-events: none;
+}
+
+.area-stroke {
+  fill: none;
+  stroke: black;
+  stroke-width: 3px;
+}
+
+.area-fill {
+  fill: inherit;
+  opacity: 0.3;
+}
+
+.point {
+  stroke: inherit;
+  stroke-width: 3px;
+  fill: white;
+}
+
+.point text {
+  stroke: none;
+  fill: black;
+}
+
+.point-left {
+  text-anchor: end;
+}
+
+.tick,
+.annotations {
+  font-size: 10px;
+}
+
+.tick line {
+  stroke: white;
+}
+
+.brush-area {
+  fill: none;
+}
+
+.brush-selection {
+  cursor: move;
+  fill-opacity: 0;
+}
+
+.brush-handle {
+  cursor: ew-resize;
+}
