@@ -12,10 +12,19 @@
     {{#each rows as row}}
       <tr>
         <th>{{row.key}}</th>
-        <td class="numeric">{{dollars(first(row.values).value)}}</td>
-        <td />
-        <td class="numeric">{{dollars(last(row.values).value)}}</td>
-        <td class="numeric">{{dollars(last(row.values).value - first(row.values).value)}}</td>
+        <td class="numeric">
+          {{dollars(first(row.values).value)}}
+        </td>
+        <td class="sparkline">
+          <SparkLine data="{{row.values}}" />
+        </td>
+        
+        <td class="numeric">
+          {{dollars(last(row.values).value)}}
+        </td>
+        <td class="numeric">
+          {{dollars(last(row.values).value - first(row.values).value)}}
+        </td>
       </tr>
     {{/each}}
   </tbody>
@@ -25,7 +34,13 @@
   import {nest} from "d3-collection";
   import {format} from "d3-format";
   
+  import SparkLine from "./SparkLine.html";
+  
   export default {
+    components: {
+      SparkLine
+    },
+    
     data() {
       return {
         prices: []
