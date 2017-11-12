@@ -7,6 +7,8 @@
 <input style="width:100%"
   type="range" min="1900" max="2005" value="{{startDate}}" step="1"
   on:change="set({startDate: +event.target.value, endDate: +event.target.value + duration})"/>
+  
+<PriceTable prices="{{wagerData}}" />
 
 <script>
   import {scaleOrdinal, schemeCategory10} from "d3-scale";
@@ -15,12 +17,14 @@
 
   import BasketValue from "./components/BasketValue.html";
   import PriceHx from "./components/PriceHx.html";
+  import PriceTable from "./components/PriceTable.html";
   import WagerPeriod from "./components/WagerPeriod.html";
   
   export default {
     components: {
       BasketValue,
       PriceHx,
+      PriceTable,
       WagerPeriod
     },
     

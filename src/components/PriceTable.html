@@ -1,0 +1,50 @@
+<table>
+  <thead>
+    <tr>
+      <th />
+      <th class="numeric">Starting Price</th>
+      <th />
+      <th class="numeric">Ending Price</th>
+      <th class="numeric">Price Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each rows as row}}
+      <tr>
+        <th>{{row.key}}</th>
+        <td class="numeric">{{dollars(first(row.values).value)}}</td>
+        <td />
+        <td class="numeric">{{dollars(last(row.values).value)}}</td>
+        <td class="numeric">{{dollars(last(row.values).value - first(row.values).value)}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<script>
+  import {nest} from "d3-collection";
+  import {format} from "d3-format";
+  
+  export default {
+    data() {
+      return {
+        prices: []
+      };
+    },
+    
+    computed: {
+      rows: (prices) => {
+        return nest()
+          .key(d => d.type)
+          .sortValues((a, b) => a.year - b.year)
+          .entries(prices);
+      }
+    },
+    
+    helpers: {
+      first: (arr) => arr[0],
+      last: (arr) => arr[arr.length - 1],
+      dollars: format("$,.2f")
+    }
+  };
+</script>
