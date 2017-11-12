@@ -1,0 +1,87 @@
+<Chart class="frameless" bind:contentWidth="width" bind:contentHeight="height"
+  :margin aspect="1.618">
+  
+  <g class="series basket-value" style="stroke: black; fill: black;">
+    <Area data="{{totals}}" :x :y />
+    <circle class="point" cx="{{initial.x}}" cy="{{initial.y}}" r="5" />
+    <circle class="point" cx="{{final.x}}" cy="{{final.y}}" r="5" />
+  </g>
+  
+</Chart>
+
+<script>
+  import {extent} from "d3-array";
+  import {nest} from "d3-collection";
+  import {scaleLinear} from "d3-scale";
+  
+  import Area from "./Area.html";
+  import Chart from "./Chart.html";
+  
+  export default {
+    namespace: "svg",
+    
+    components: {
+      Area,
+      Chart
+    },
+    
+    data() {
+      return {
+        width: 0,
+        height: 0,
+        margin: {
+          top: 8,
+          right: 8,
+          bottom: 8,
+          left: 8
+        }
+      };
+    },
+    
+    computed: {
+      totals: (prices) => {
+        return nest()
+          .key(d => d.year)
+          .rollup(values => values.reduce((p, v) => p + v.value, 0))
+          .entries(prices)
+          .sort((a, b) => a.key - b.key);
+      },
+      
+      x: (width, totals) => {
+        return {
+          value: d => d.key,
+          format: String,
+          scale: scaleLinear()
+            .domain(extent(totals, d => d.key))
+            .range([0, width]),
+        };
+      },
+      
+      y: (height, totals) => {
+        return {
+          value: d => d.value,
+          format: String,
+          scale: scaleLinear()
+            .domain(extent(totals, d => d.value))
+            .range([height, 0])
+        };
+      },
+      
+      initial: (x, y, totals) => {
+        return {
+          x: x.scale(x.value(totals[0])),
+          y: y.scale(y.value(totals[0]))
+        };
+      },
+      
+      final: (x, y, totals) => {
+        const d = totals[totals.length - 1];
+        
+        return {
+          x: x.scale(x.value(d)),
+          y: y.scale(y.value(d))
+        };
+      }
+    }
+  };
+</script>

@@ -6,6 +6,7 @@ new App({
   data: {
     startDate: 1980,
     endDate: 1990,
+    wager: 1000,
     prices
   }
 });

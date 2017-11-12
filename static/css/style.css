@@ -28,6 +28,23 @@ figure {
   pointer-events: none;
 }
 
+.area-stroke {
+  fill: none;
+  stroke: inherit;
+  stroke-width: 3px;
+}
+
+.area-fill {
+  fill: inherit;
+  opacity: 0.3;
+}
+
+.point {
+  stroke: inherit;
+  stroke-width: 3px;
+  fill: white;
+}
+
 .tick,
 .annotations {
   font-size: 10px;
@@ -48,26 +65,4 @@ figure {
 
 .brush-handle {
   cursor: ew-resize;
-}
-
-@media screen and (min-width: 540px) {
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1em;
-  }
-  
-  .grid .full {
-    grid-column-end: span 2;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  
-  .grid .full {
-    grid-column-end: span 5;
-  }
 }
