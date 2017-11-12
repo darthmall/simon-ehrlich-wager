@@ -8,7 +8,7 @@
   type="range" min="1900" max="2005" value="{{startDate}}" step="1"
   on:change="set({startDate: +event.target.value, endDate: +event.target.value + duration})"/>
   
-<PriceTable prices="{{wagerData}}" />
+<PriceTable prices="{{wagerData}}" :startDate :endDate/>
 
 <script>
   import {scaleOrdinal, schemeCategory10} from "d3-scale";
