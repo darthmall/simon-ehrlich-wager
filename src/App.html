@@ -4,6 +4,10 @@
   <BasketValue prices="{{wagerData}}" />
 </figure>
 
+<input style="width:100%"
+  type="range" min="1900" max="2005" value="{{startDate}}" step="1"
+  on:change="set({startDate: +event.target.value, endDate: +event.target.value + duration})"/>
+
 <script>
   import {scaleOrdinal, schemeCategory10} from "d3-scale";
   
@@ -18,6 +22,12 @@
       BasketValue,
       PriceHx,
       WagerPeriod
+    },
+    
+    data() {
+      return {
+        duration: 10
+      };
     },
     
     computed: {
