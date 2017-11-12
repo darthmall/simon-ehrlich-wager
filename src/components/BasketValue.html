@@ -3,8 +3,11 @@
   
   <g class="series basket-value" style="stroke: black; fill: black;">
     <Area data="{{totals}}" :x :y />
-    <circle class="point" cx="{{initial.x}}" cy="{{initial.y}}" r="5" />
-    <circle class="point" cx="{{final.x}}" cy="{{final.y}}" r="5" />
+    
+    {{#each annotations as a}}
+      <Point x="{{a.x}}" y="{{a.y}}" datum="{{a.datum}}"
+        align="{{a.align}}" :label />
+    {{/each}}
   </g>
   
 </Chart>
@@ -16,13 +19,15 @@
   
   import Area from "./Area.html";
   import Chart from "./Chart.html";
+  import Point from "./Point.html";
   
   export default {
     namespace: "svg",
     
     components: {
       Area,
-      Chart
+      Chart,
+      Point
     },
     
     data() {
@@ -30,10 +35,10 @@
         width: 0,
         height: 0,
         margin: {
-          top: 8,
-          right: 8,
-          bottom: 8,
-          left: 8
+          top: 16,
+          right: 64,
+          bottom: 16,
+          left: 64
         }
       };
     },
@@ -67,20 +72,27 @@
         };
       },
       
-      initial: (x, y, totals) => {
-        return {
-          x: x.scale(x.value(totals[0])),
-          y: y.scale(y.value(totals[0]))
-        };
-      },
-      
-      final: (x, y, totals) => {
-        const d = totals[totals.length - 1];
+      annotations: (x, y, totals) => {
+        function makeAnnotation(d, align) {
+          return {
+            x: x.scale(x.value(d)),
+            y: y.scale(y.value(d)),
+            datum: d,
+            align
+          };
+        }
         
-        return {
-          x: x.scale(x.value(d)),
-          y: y.scale(y.value(d))
-        };
+        const initial = totals[0],
+          final = totals[totals.length - 1];
+          
+        return [makeAnnotation(initial, "left"), makeAnnotation(final, "right")];
+      }
+    },
+    
+    helpers: {
+      label: (d) => {
+        return `<tspan x="0">${d.value}</tspan>
+          <tspan x="0" dy="1.1em">${d.key}</tspan>`;
       }
     }
   };

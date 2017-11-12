@@ -45,6 +45,15 @@ figure {
   fill: white;
 }
 
+.point text {
+  stroke: none;
+  fill: black;
+}
+
+.point-left {
+  text-anchor: end;
+}
+
 .tick,
 .annotations {
   font-size: 10px;
