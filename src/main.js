@@ -1,5 +1,6 @@
 import {select} from "d3-selection";
 
+import {totalValue} from "./components";
 import {simonEhrlichWager} from "./model";
 import prices from "../data/metals.json";
 
@@ -9,11 +10,14 @@ let state = {
   initialValue: 1000
 };
 
-let main = select("#root");
+const main = select("#root");
 
 main.append("header")
   .append("h1")
   .text("Simon-Ehrlich Wager");
+  
+const totalValueFigure = main.append("figure");
+const total = totalValue();
 
 function update() {
   draw(simonEhrlichWager(prices,
@@ -23,7 +27,7 @@ function update() {
 }
 
 function draw(data) {
-  
+  totalValueFigure.call(total.data(data));
 }
 
 update();
