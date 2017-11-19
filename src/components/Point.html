@@ -1,0 +1,25 @@
+<g class="point point-{{align}}" transform="translate({{x}}, {{y}})">
+  <circle :r />
+  <text :dx>{{{label(datum)}}}</text>
+</g>
+
+<script>
+  export default {
+    namespace: "svg",
+    
+    data() {
+      return {
+        align: "left",
+        x: 0,
+        y: 0,
+        r: 5,
+        label: String,
+        datum: {}
+      };
+    },
+    
+    computed: {
+      dx: (align, r) => (align === "left") ? -r : r
+    }
+  };
+</script>
