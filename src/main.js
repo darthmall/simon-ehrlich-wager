@@ -31,3 +31,7 @@ function draw(data) {
 }
 
 update();
+
+// FIXME: This is a little wasteful, since we only need to redraw, but
+// we're triggering a recalculation of all the data here.
+window.onresize = update;
