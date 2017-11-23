@@ -1,8 +1,8 @@
-import {area, line, curveCatmullRom} from "d3-shape";
+import {area, line} from "d3-shape";
 
 export default function areaChart() {
-  const _line = line().curve(curveCatmullRom),
-    _area = area().curve(curveCatmullRom);
+  const _line = line(),
+    _area = area();
   
   function chart(sel) {
     let series = sel.selectAll(".series").data(d => [d]);
