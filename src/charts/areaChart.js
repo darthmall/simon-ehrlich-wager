@@ -1,5 +1,9 @@
 import {area, line} from "d3-shape";
 
+function bounds(arr) {
+  return [arr[0], arr[arr.length - 1]];
+}
+
 export default function areaChart() {
   const _line = line(),
     _area = area();
@@ -28,15 +32,28 @@ export default function areaChart() {
       .merge(stroke)
         .attr("d", _line);
         
-    const point = series.selectAll("circle").data(d => d.values);
-    
+    const point = series.selectAll(".point").data(d => bounds(d.values));
+    const text = point.select("text");
+      
     point.exit().remove();
     
-    point.enter().append("circle")
-        .attr("r", 4)
-      .merge(point)
-        .attr("cx", _line.x())
-        .attr("cy", _line.y());
+    const pointEnter = point.enter().append("g")
+        .attr("class", "point");
+    
+    pointEnter.append("circle").attr("r", 4);
+    
+    text.merge(pointEnter.append("text")
+      .html("<tspan></tspan><tspan></tspan>"))
+        .attr("text-anchor", (d, i) => i === 0 ? "end" : "start")
+        .attr("transform", (d, i) => `translate(${i === 0 ? -8 : 8}, 0)`)
+      .selectAll("tspan")
+        .data(d => [d.key, d.value])
+        .attr("x", 0)
+        .attr("dy", (d, i) => `${i * 1.2}em`)
+        .text(String);
+        
+    point.merge(pointEnter)
+      .attr("transform", d => `translate(${_line.x()(d)}, ${_line.y()(d)})`);
   }
   
   chart.x = function (_) {

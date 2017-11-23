@@ -9,9 +9,9 @@ export default function totalValue() {
   let _data = [];
   
   let _margin = {
-    top: 4,
+    top: 18,
     left: 46,
-    bottom: 4,
+    bottom: 18,
     right: 46
   };
   
@@ -59,7 +59,10 @@ export default function totalValue() {
       .y0(y(_data[0].value))
       .y1(d => y(d.value));
         
-    svg.selectAll(".margin").data(d => [d])
+    svg.selectAll(".margin")
+        .style("stroke", "#EBAF6A")
+        .style("fill", "#EBAF6A")
+        .data(d => [d])
         .call(_chart);
   }
   
