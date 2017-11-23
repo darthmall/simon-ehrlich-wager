@@ -11,8 +11,18 @@ section {
 }
 
 figure {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   overflow: hidden;
+}
+
+figcaption {
+  flex: 0 0 content;
+}
+
+figure > svg {
+  flex: 1 1 auto;
 }
 
 table {
