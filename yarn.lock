@@ -717,6 +717,10 @@ d3-scale@^1.0.6:
     d3-time "1"
     d3-time-format "2"
 
+d3-selection@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-1.1.0.tgz#1998684896488f839ca0372123da34f1d318809c"
+
 d3-shape@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.2.0.tgz#45d01538f064bafd05ea3d6d2cb748fd8c41f777"
@@ -1755,10 +1759,6 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-require-relative@^0.8.7:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/require-relative/-/require-relative-0.8.7.tgz#7999539fc9e047a37928fa196f8e1563dabd36de"
-
 require-uncached@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/require-uncached/-/require-uncached-1.0.3.tgz#4e0d56d6c9662fd31e43011c4b95aa49955421d3"
@@ -1833,15 +1833,6 @@ rollup-plugin-serve@^0.4.2:
   dependencies:
     mime "^1.3.6"
     opener "^1.4.3"
-
-rollup-plugin-svelte@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-3.1.0.tgz#12405b2ac51016c1a35cc1be6840ac0ad6df8163"
-  dependencies:
-    require-relative "^0.8.7"
-    rollup-pluginutils "^2.0.1"
-    sourcemap-codec "^1.3.1"
-    svelte "^1.25.1"
 
 rollup-plugin-uglify@^2.0.1:
   version "2.0.1"
@@ -1933,12 +1924,6 @@ source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
-sourcemap-codec@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.3.1.tgz#9ad6f9bdbd691931016e30939dbc868673323146"
-  dependencies:
-    vlq "^0.2.1"
-
 spdx-correct@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-1.0.2.tgz#4b3073d933ff51f3912f03ac5519498a4150db40"
@@ -2007,10 +1992,6 @@ supports-color@^4.0.0:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.5.0.tgz#be7a0de484dec5c5cddf8b3d59125044912f635b"
   dependencies:
     has-flag "^2.0.0"
-
-svelte@^1.25.1:
-  version "1.41.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-1.41.1.tgz#3db0b5d6fce95289d736a10ca26aac1a2ab3fb2c"
 
 table@^4.0.1:
   version "4.0.2"
@@ -2094,10 +2075,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
-
-vlq@^0.2.1:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/vlq/-/vlq-0.2.3.tgz#8f3e4328cf63b1540c0d67e1b2778386f8975b26"
 
 which@^1.2.9:
   version "1.3.0"
