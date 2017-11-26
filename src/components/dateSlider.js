@@ -1,6 +1,6 @@
-import {range as d3_range} from "d3-array"
+import {range as d3_range} from "d3-array";
 import {axisBottom} from "d3-axis";
-import {scaleLinear} from "d3-scale";
+import {scalePoint} from "d3-scale";
 import {local} from "d3-selection";
 
 export default function dateSlider() {
@@ -11,14 +11,14 @@ export default function dateSlider() {
   
   function component(sel) {
     sel.each(function () {
-      const bbox = this.getBoundingClientRect();
+      const {width} = this.getBoundingClientRect(),
+        scale = scalePoint()
+          .range([0, width])
+          .domain(d3_range(range[0], range[1] + step, step));
       
-      x.set(this, scaleLinear()
-        .domain(range)
-        .range([0, bbox.width])
-      );
+      x.set(this, scale);
       
-      this.setAttribute("viewBox", `0 0 ${bbox.width} 60`);
+      return `0 0 ${width} 60`;
     });
     
     let slider = sel.selectAll(".slider").data(d => [d]),
@@ -73,14 +73,12 @@ export default function dateSlider() {
         .attr("transform", "translate(0, 15)")
       .merge(axis)
         .call(function (ax) {
-          const scale = x.get(ax.node()),
-            [lower, upper] = scale.domain();
+          const scale = x.get(ax.node());
             
           ax.call(axisBottom(scale)
             .tickSize(28)
             .tickPadding(4)
             .tickFormat(String)
-            .tickValues(d3_range(lower, upper + 1, step))
           );
         })
         .attr("font-size", null);
