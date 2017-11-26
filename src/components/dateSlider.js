@@ -6,6 +6,7 @@ import {mouse} from "d3-selection";
 import {voronoi} from "d3-voronoi";
 
 const THUMB_SIZE = 11;
+const MARGIN = THUMB_SIZE;
 
 export default function dateSlider() {
   let range = [0, 1],
@@ -20,7 +21,7 @@ export default function dateSlider() {
       const {width} = this.getBoundingClientRect();
       
       x.domain(d3_range(range[0], range[1] + step, step))
-          .range([0, width]);
+          .range([MARGIN, width - MARGIN * 2]);
       
       return `0 0 ${width} 60`;
     });
@@ -31,6 +32,7 @@ export default function dateSlider() {
           
     sliderEnter.append("rect")
         .attr("class", "track track--bg")
+        .attr("x", MARGIN)
         .attr("y", 4)
         .attr("height", 4);
       
@@ -100,7 +102,7 @@ export default function dateSlider() {
     });
     
     const cells = voronoi()
-        .size([x.range()[1], 60])
+        .size([x.range()[1] + MARGIN * 2, 60])
         .x(d => x(d))
         .y(30);
         
