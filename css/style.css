@@ -1,18 +1,81 @@
+:root {
+  --darkblue: #0C1F36;
+  --orange: #EBAF6A;
+  --gray: #676F78;
+  
+  --main-color: var(--darkblue);  
+  --accent-color: var(--orange);
+  
+  --monospace: "Cousine", monospace;
+  --sans: "Work Sans", sans-serif;
+}
+
 html {
-  font-family: sans-serif;
+  color: var(--main-color);
+  font-family: var(--sans);
+  font-size: 16px;
 }
 
 body {
-  margin: 0.5em;
+  margin: 0 auto;
+  font-size: 0.875em;
+  max-width: 425px;
 }
 
-section {
+h1 {
+  font-size: 1.6em;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 1.6em;
+}
+
+p {
+  font-family: var(--monospace);
+}
+
+a {
+  color: var(--accent-color);
+}
+
+body > * {
+  margin: 1em;
+}
+
+main {
+  margin-bottom: 4.096em;
+}
+
+footer {
+  font-size: 0.625em;
+  padding: 1rem 0;
+  border-top: 1px solid var(--main-color);
+}
+
+svg {
+  font-weight: 300;
+  overflow: visible;
   width: 100%;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 figure {
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  overflow: hidden;
+}
+
+figcaption {
+  font-weight: 300;
+  flex: 0 0 auto;
+  margin-bottom: 1.6em;
+  text-align: center;
+}
+
+figure > svg {
+  flex: 1 1 auto;
 }
 
 table {
@@ -21,25 +84,43 @@ table {
   margin: auto;
 }
 
-thead th {
-  padding: 0 0.5em;
-}
-
 th {
+  font-size: 0.625em;
+  font-weight: 700;
   text-align: left;
+  text-transform: uppercase;
 }
 
 td {
-  padding: 0.5em;
+  height: 2.56em;
+}
+
+td + td,
+th + th {
+  padding-left: 1em;
 }
 
 table .numeric {
   text-align: right;
 }
 
-table .sparkline {
-  min-width: 5em;
+.sparkline svg {
+  width: 4.608em;
+  height: 1.6em;
   padding: 0;
+}
+
+.track {
+  fill: var(--gray);
+}
+
+.track--selection {
+  fill: var(--accent-color);
+}
+
+[role=slider],
+.selection {
+  fill: var(--accent-color);
 }
 
 .chart-background {
@@ -50,6 +131,17 @@ table .sparkline {
   fill: none;
 }
 
+.sparkline path {
+  fill: none;
+  stroke: var(--main-color);
+}
+
+.sparkline circle {
+  fill: var(--main-color);
+  stroke-width: 1px;
+  stroke: white;
+}
+
 .axis,
 .series {
   pointer-events: none;
@@ -57,7 +149,7 @@ table .sparkline {
 
 .area-stroke {
   fill: none;
-  stroke: black;
+  stroke: inherit;
   stroke-width: 3px;
 }
 
@@ -81,24 +173,52 @@ table .sparkline {
   text-anchor: end;
 }
 
-.tick,
-.annotations {
-  font-size: 10px;
+.tick text {
+  font-size: 0.625em;
+  font-weight: 400;
 }
-
 .tick line {
-  stroke: white;
+  stroke: var(--main-color);
 }
 
-.brush-area {
+.tick--minor line {
+  stroke: var(--gray);
+}
+
+.tick--selection line {
+  stroke: var(--accent-color);
+}
+
+.cell {
   fill: none;
+  stroke: none;
+  pointer-events: all;
 }
 
-.brush-selection {
-  cursor: move;
-  fill-opacity: 0;
-}
-
-.brush-handle {
-  cursor: ew-resize;
+@media screen and (min-width: 960px) {
+  body {
+    font-size: 1.125em;
+    max-width: inherit;
+  }
+  
+  figcaption {
+    text-align: left;
+  }
+  
+  .hbox {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .hbox > * {
+    flex: 0 0 auto;
+  }
+  
+  .hbox > .grow {
+    flex: 1 1 auto;
+  }
+  
+  .hbox > * + * {
+    margin-left: 1.6em;
+  }
 }
