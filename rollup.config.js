@@ -2,7 +2,6 @@ import babel from "rollup-plugin-babel";
 import eslint from "rollup-plugin-eslint";
 import json from "rollup-plugin-json";
 import resolve from "rollup-plugin-node-resolve";
-import uglify from "rollup-plugin-uglify";
 
 export default {
   entry: "src/main.js",
@@ -13,6 +12,5 @@ export default {
     json({preferConst: true}),
     eslint({include: ["./src/**/*.js"]}),
     babel(),
-    uglify()
   ]
 };

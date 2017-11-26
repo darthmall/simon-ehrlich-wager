@@ -1,6 +1,7 @@
 :root {
   --darkblue: #0C1F36;
   --orange: #EBAF6A;
+  --gray: #676F78;
   
   --main-color: var(--darkblue);  
   --accent-color: var(--orange);
@@ -12,9 +13,10 @@ html {
   font-size: 16px;
 }
 
-body {
+body,
+svg {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 0.875em;
 }
 
 body > * {
@@ -28,6 +30,14 @@ main {
 footer {
   background-color: #0C1F36;
   min-height: 25vh;
+}
+
+svg {
+  width: 100%;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 figure {
@@ -56,12 +66,12 @@ th {
 }
 
 td {
-  height: 2.88rem;
+  height: 2.88em;
 }
 
 td + td,
 th + th {
-  padding-left: 1.125rem;
+  padding-left: 1.125em;
 }
 
 table .numeric {
@@ -69,9 +79,22 @@ table .numeric {
 }
 
 .sparkline svg {
-  width: 4.608rem;
-  height: 1.8rem;
+  width: 4.608em;
+  height: 1.8em;
   padding: 0;
+}
+
+.track {
+  fill: var(--gray);
+}
+
+.track--selection {
+  fill: var(--accent-color);
+}
+
+[role=slider],
+.selection {
+  fill: var(--accent-color);
 }
 
 .chart-background {
@@ -124,24 +147,23 @@ table .numeric {
   text-anchor: end;
 }
 
-.tick,
-.annotations {
-  font-size: 10px;
+.tick text {
+  font-size: 0.625em;
 }
-
 .tick line {
-  stroke: white;
+  stroke: var(--main-color);
 }
 
-.brush-area {
+.tick--minor line {
+  stroke: var(--gray);
+}
+
+.tick--selection line {
+  stroke: var(--accent-color);
+}
+
+.cell {
   fill: none;
-}
-
-.brush-selection {
-  cursor: move;
-  fill-opacity: 0;
-}
-
-.brush-handle {
-  cursor: ew-resize;
+  stroke: none;
+  pointer-events: all;
 }

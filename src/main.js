@@ -1,6 +1,7 @@
+import {extent} from "d3-array";
 import {select} from "d3-selection";
 
-import {priceTable, totalValue} from "./components";
+import {dateSlider, priceTable, totalValue} from "./components";
 import {simonEhrlichWager} from "./model";
 import prices from "../data/metals.json";
 
@@ -17,9 +18,17 @@ main.append("header")
   .text("Simon-Ehrlich Wager");
   
 const totalValueFigure = main.append("figure"),
-  priceTableFigure = main.append("figure");
+  priceTableFigure = main.append("figure"),
+  yearSlider = main.append("svg");
   
-const total = totalValue();
+const total = totalValue(),
+  slider = dateSlider().range(extent(prices, d => d.year));
+
+slider.on("change", function (data) {
+  state.startYear = data[0];
+  state.endYear = data[1];
+  update();
+});
 
 function update() {
   draw(simonEhrlichWager(prices,
@@ -31,6 +40,7 @@ function update() {
 function draw(data) {
   totalValueFigure.call(total.data(data));
   priceTableFigure.call(priceTable, data);
+  yearSlider.datum([state.startYear, state.endYear]).call(slider);
 }
 
 update();
