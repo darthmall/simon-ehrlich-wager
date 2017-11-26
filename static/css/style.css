@@ -18,6 +18,12 @@ body {
   font-size: 0.875em;
 }
 
+h1 {
+  font-size: 1.6em;
+  margin-top: 0;
+  margin-bottom: 1.6em;
+}
+
 body > * {
   padding: 1em;
 }
@@ -49,6 +55,7 @@ figure {
 figcaption {
   flex: 0 0 auto;
   margin-bottom: 1.6em;
+  text-align: center;
 }
 
 figure > svg {
@@ -172,27 +179,24 @@ table .numeric {
     font-size: 1.125em;
   }
   
-  h1 {
-    margin: 0;
+  figcaption {
+    text-align: left;
   }
   
-  main {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-auto-rows: max-content;
-    grid-column-gap: 1.6em;
-    grid-row-gap: 2.56em;
+  .hbox {
+    display: flex;
+    flex-direction: row;
   }
   
-  .span-2 {
-    grid-column: span 2;
+  .hbox > * {
+    flex: 0 0 auto;
   }
   
-  .span-3 {
-    grid-column: span 3;
+  .hbox > .grow {
+    flex: 1 1 auto;
   }
   
-  .span-5 {
-    grid-column: span 5;
+  .hbox > * + * {
+    margin-left: 1.6em;
   }
 }

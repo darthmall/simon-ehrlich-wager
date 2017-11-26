@@ -14,12 +14,13 @@ let state = {
 const main = select("#root");
 
 main.append("h1")
-  .attr("class", "span-5")
   .text("Simon-Ehrlich Wager");
   
-const totalValueFigure = main.append("figure").attr("class", "span-3"),
-  priceTableFigure = main.append("figure").attr("class", "span-2"),
-  yearSlider = main.append("svg").attr("class", "span-5");
+const hbox = main.append("div").attr("class", "hbox")
+  
+const totalValueFigure = hbox.append("figure").attr("class", "grow"),
+  priceTableFigure = hbox.append("figure"),
+  yearSlider = main.append("svg");
   
 const total = totalValue(),
   slider = dateSlider().range(extent(prices, d => d.year));
@@ -43,6 +44,9 @@ function draw(data) {
   yearSlider.datum([state.startYear, state.endYear]).call(slider);
 }
 
+update();
+
+// FIXME: Ew. Drawing twice on load to get the sizes right on the area chart.
 update();
 
 // FIXME: This is a little wasteful, since we only need to redraw, but
