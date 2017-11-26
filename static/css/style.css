@@ -5,39 +5,54 @@
   
   --main-color: var(--darkblue);  
   --accent-color: var(--orange);
+  
+  --monospace: "Cousine", monospace;
+  --sans: "Work Sans", sans-serif;
 }
 
 html {
   color: var(--main-color);
-  font-family: sans-serif;
+  font-family: var(--sans);
   font-size: 16px;
 }
 
 body {
-  margin: 0;
+  margin: 0 auto;
   font-size: 0.875em;
+  max-width: 425px;
 }
 
 h1 {
   font-size: 1.6em;
+  font-weight: 300;
   margin-top: 0;
   margin-bottom: 1.6em;
 }
 
+p {
+  font-family: var(--monospace);
+}
+
+a {
+  color: var(--accent-color);
+}
+
 body > * {
-  padding: 1em;
+  margin: 1em;
 }
 
 main {
-  min-height: 100vh;
+  margin-bottom: 4.096em;
 }
 
 footer {
-  background-color: #0C1F36;
-  min-height: 25vh;
+  font-size: 0.625em;
+  padding: 1rem 0;
+  border-top: 1px solid var(--main-color);
 }
 
 svg {
+  font-weight: 300;
   overflow: visible;
   width: 100%;
   -moz-user-select: none;
@@ -53,6 +68,7 @@ figure {
 }
 
 figcaption {
+  font-weight: 300;
   flex: 0 0 auto;
   margin-bottom: 1.6em;
   text-align: center;
@@ -65,10 +81,14 @@ figure > svg {
 table {
   border-collapse: collapse;
   font-variant-numeric: lining-nums tabular-nums;
+  margin: auto;
 }
 
 th {
+  font-size: 0.625em;
+  font-weight: 700;
   text-align: left;
+  text-transform: uppercase;
 }
 
 td {
@@ -155,6 +175,7 @@ table .numeric {
 
 .tick text {
   font-size: 0.625em;
+  font-weight: 400;
 }
 .tick line {
   stroke: var(--main-color);
@@ -174,9 +195,10 @@ table .numeric {
   pointer-events: all;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 960px) {
   body {
     font-size: 1.125em;
+    max-width: inherit;
   }
   
   figcaption {
