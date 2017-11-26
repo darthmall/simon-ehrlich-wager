@@ -16,10 +16,10 @@ const main = select("#root");
 main.append("h1")
   .text("Simon-Ehrlich Wager");
   
-const hbox = main.append("div").attr("class", "hbox")
+const hbox = main.append("div").attr("class", "hbox");
   
 const totalValueFigure = hbox.append("figure").attr("class", "grow"),
-  priceTableFigure = hbox.append("figure"),
+  priceTableFigure = hbox.append("figure").attr("id", "price-table"),
   yearSlider = main.append("svg");
   
 const total = totalValue(),

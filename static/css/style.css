@@ -65,6 +65,7 @@ figure {
   display: flex;
   flex-direction: column;
   margin: 0;
+  min-width: 425px;
 }
 
 figcaption {
@@ -92,12 +93,18 @@ th {
 }
 
 td {
+  font-family: var(--monospace);
   height: 2.56em;
 }
 
-td + td,
-th + th {
-  padding-left: 1em;
+td:not(:first-child),
+th:not(:first-child) {
+  padding-left: 0.5em;
+}
+
+td:not(:last-child),
+th:not(:last-child) {
+  padding-right: 0.5em;
 }
 
 table .numeric {
@@ -203,6 +210,14 @@ table .numeric {
   
   figcaption {
     text-align: left;
+  }
+  
+  #price-table {
+    min-width: 26.844em;
+  }
+  
+  table {
+    margin: 0;
   }
   
   .hbox {
