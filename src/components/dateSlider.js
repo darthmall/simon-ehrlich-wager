@@ -117,7 +117,7 @@ export default function dateSlider() {
     path.enter()
       .append("path")
         .attr("class", "cell")
-        .on("mousedown", function () { onMouseDown(sel); })
+        .on("mousedown", function (d) { onMouseDown(sel, d); })
       .merge(path)
         .attr("d", d => d ? `M${d.join("L")}Z` : null);
   }
@@ -139,7 +139,7 @@ export default function dateSlider() {
     return component;
   };
   
-  function onMouseDown(sel) {
+  function onMouseDown(sel, d) {
     function cleanup() {
       sel.selectAll(".cell").on("mouseover", null);
     }
@@ -173,7 +173,17 @@ export default function dateSlider() {
       grabbing = "upper";
     }
     
-    if (!grabbing) return;
+    if (!grabbing) {
+      const datum = sel.datum(),
+        delta = datum[1] - datum[0];
+        
+      let value = [d.data, d.data + delta];
+      
+      if (value[1] > range[1]) value = [range[1] - delta, range[1]];
+      
+      listeners.call("change", sel.node(), value);
+      return;
+    }
     
     const lower = grabbing === "lower";
     
