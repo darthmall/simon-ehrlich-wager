@@ -38,10 +38,11 @@ export default function totalValue() {
     svg = svg.enter().append("svg")
       .merge(svg)
         .attr("viewBox", function () {
-          const bbox = this.getBoundingClientRect();
+          const bbox = this.getBoundingClientRect(),
+            aspect = window.innerWidth / window.innerHeight;
           
           width = bbox.width;
-          height = bbox.height;
+          height = Math.min(width, width / aspect);
           
           return `0 0 ${width} ${height}`;
         })

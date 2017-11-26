@@ -13,13 +13,13 @@ let state = {
 
 const main = select("#root");
 
-main.append("header")
-  .append("h1")
+main.append("h1")
+  .attr("class", "span-5")
   .text("Simon-Ehrlich Wager");
   
-const totalValueFigure = main.append("figure"),
-  priceTableFigure = main.append("figure"),
-  yearSlider = main.append("svg");
+const totalValueFigure = main.append("figure").attr("class", "span-3"),
+  priceTableFigure = main.append("figure").attr("class", "span-2"),
+  yearSlider = main.append("svg").attr("class", "span-5");
   
 const total = totalValue(),
   slider = dateSlider().range(extent(prices, d => d.year));
