@@ -117,7 +117,7 @@ export default function dateSlider() {
     path.enter()
       .append("path")
         .attr("class", "cell")
-        .on("mousedown", function (d) { onMouseDown(sel); })
+        .on("mousedown", function () { onMouseDown(sel); })
       .merge(path)
         .attr("d", d => d ? `M${d.join("L")}Z` : null);
   }
@@ -145,7 +145,14 @@ export default function dateSlider() {
     }
     
     function onMouseOver(d) {
-      const value = lower ? [d.data, sel.datum()[1]] : [sel.datum()[0], d.data];
+      let value = lower ? [d.data, sel.datum()[1]] : [sel.datum()[0], d.data];
+      
+      if (value[1] - value[0] < step) {
+        value = lower ? [d.data, d.data + step] : [d.data - step, d.data];
+      }
+      
+      if (value[0] < range[0] || value[1] > range[1]) return;
+      
       listeners.call("change", sel.node(), value);
     }
     
