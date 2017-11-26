@@ -157,3 +157,9 @@ table .numeric {
 .tick--selection line {
   stroke: var(--accent-color);
 }
+
+.cell {
+  fill: none;
+  stroke: none;
+  pointer-events: all;
+}

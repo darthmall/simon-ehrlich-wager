@@ -24,6 +24,12 @@ const totalValueFigure = main.append("figure"),
 const total = totalValue(),
   slider = dateSlider().range(extent(prices, d => d.year));
 
+slider.on("change", function (data) {
+  state.startYear = data[0];
+  state.endYear = data[1];
+  update();
+});
+
 function update() {
   draw(simonEhrlichWager(prices,
     state.startYear,
