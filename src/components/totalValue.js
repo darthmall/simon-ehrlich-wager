@@ -1,9 +1,25 @@
 import {extent, sum} from "d3-array";
 import {nest} from "d3-collection";
+import {format} from "d3-format";
 import {scaleLinear} from "d3-scale";
 
 import {areaChart} from "../charts";
 import margin from "./margin";
+
+const dollars = format("$.0f");
+
+function captionText(d) {
+  if (d.delta === 0) {
+    return `The total value of the materials was the same in
+      ${d.period[1]} as in ${d.period[0]}`;
+  }
+  
+  const amount = Math.abs(d.delta),
+    adjective = d.delta < 0 ? "lower" : "higher";
+    
+  return `The total value of the materials was ${dollars(amount)} ${adjective}
+    in ${d.period[1]} than in ${d.period[0]}`;
+}
 
 export default function totalValue() {
   let _data = [];
@@ -20,14 +36,18 @@ export default function totalValue() {
   function component(selection) {
     const period = extent(_data, d => d.key);
     
-    const caption = selection.selectAll("figcaption").data([period]);
+    const delta = _data.filter(d => period.indexOf(d.key) > -1)
+        .sort((a, b) => b.key - a.key)
+        .map(d => d.value)
+        .reduce((a, b) => a - b);
+    
+    const caption = selection.selectAll("figcaption")
+        .data([{period, delta}]);
+        
     caption.enter()
         .append("figcaption")
-        .html("Total Value of Materials from <span></span> to <span></span>")
       .merge(caption)
-      .selectAll("span")
-        .data(d => d)
-        .text(String);
+        .text(captionText);
         
     let width = 0,
       height = 0;
