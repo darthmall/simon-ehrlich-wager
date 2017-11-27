@@ -5851,7 +5851,7 @@ main.append("h1").text("Simon-Ehrlich Wager");
 var hbox = main.append("div").attr("class", "hbox");
 
 var totalValueFigure = hbox.append("figure").attr("class", "grow");
-var priceTableFigure = hbox.append("figure");
+var priceTableFigure = hbox.append("figure").attr("id", "price-table");
 var yearSlider = main.append("svg");
 
 var total = totalValue();
